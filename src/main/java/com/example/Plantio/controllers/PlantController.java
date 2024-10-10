@@ -108,6 +108,10 @@ public class PlantController {
     @GetMapping("/all/{id}")
     public String getIdPlant(@PathVariable("id") UUID id, Model model) {
         model.addAttribute("plant", plantService.getPlantById(id));
+        model.addAttribute("plantCare", new PlantCareModel());
+        model.addAttribute("environmentalCondition", new EnvironmentalConditionsModel());
+        model.addAttribute("wateringSchedule", new WateringScheduleModel());
+        model.addAttribute("actionsList", ActionsEnum.values());
         return "plantsActions";
     }
 }

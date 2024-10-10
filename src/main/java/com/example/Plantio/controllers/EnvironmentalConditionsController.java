@@ -1,7 +1,9 @@
 package com.example.Plantio.controllers;
 
 import com.example.Plantio.model.EnvironmentalConditionsModel;
+import com.example.Plantio.model.PlantModel;
 import com.example.Plantio.service.EnvironmentalConditionsService;
+import com.example.Plantio.service.PlantService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,20 +19,24 @@ public class EnvironmentalConditionsController {
     @Autowired
     private EnvironmentalConditionsService environmentalConditionsService;
 
+    @Autowired
+    PlantService plantService;
+
     @GetMapping("/all")
     public String getAllEnvironmentalConditions(Model model) {
         model.addAttribute("environmentalConditions", environmentalConditionsService.getAllEnvironmentalConditions());
         return "environmentalConditions";
     }
 
-    @PostMapping("/add")
-    public String addEnvironmentalCondition(@Valid @ModelAttribute("environmentalCondition") EnvironmentalConditionsModel environmentalConditionsModel, BindingResult result, Model model) {
+    @PostMapping("/add/{id}")
+    public String addEnvironmentalCondition(@Valid @ModelAttribute("environmentalCondition") EnvironmentalConditionsModel environmentalConditionsModel, BindingResult result, @PathVariable("id") UUID id, Model model) {
         if(result.hasErrors()) {
             model.addAttribute("environmentalConditions", environmentalConditionsService.getAllEnvironmentalConditions());
             return "environmentalConditions";
         }
+        environmentalConditionsModel.setPlant(plantService.getPlantById(id));
         environmentalConditionsService.addEnvironmentalCondition(environmentalConditionsModel);
-        return "redirect:/environmentalConditions/all";
+        return "redirect:/plants/all/{id}";
     }
 
     @PostMapping("/update")
@@ -42,7 +48,7 @@ public class EnvironmentalConditionsController {
     @PostMapping("/delete")
     public String deleteEnvironmentalCondition(@RequestParam UUID id) {
         environmentalConditionsService.deleteEnvironmentalCondition(id);
-        return "redirect:/environmentalConditions/all";
+        return "redirect:/plants/all";
     }
 
     @GetMapping("/all/{id}")
