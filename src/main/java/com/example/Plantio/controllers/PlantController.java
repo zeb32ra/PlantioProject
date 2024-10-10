@@ -74,17 +74,26 @@ public class PlantController {
 
     @PostMapping("/update")
     public String updatePlant(@Valid @ModelAttribute("plant") PlantModel plantModel, BindingResult result, Model model){
-        model.addAttribute("plants", plantService.getAllPlants());
-        model.addAttribute("plant", new PlantModel());
-        model.addAttribute("speciesList", PlantSpecies.values());
-        model.addAttribute("conditionsList", ConditionEnum.values());
-        model.addAttribute("locationList", locationService.getAllLocations());
+        if(result.hasErrors()) {
+            model.addAttribute("plants", plantService.getAllPlants());
+            model.addAttribute("plant", new PlantModel());
+            model.addAttribute("speciesList", PlantSpecies.values());
+            model.addAttribute("conditionsList", ConditionEnum.values());
+            model.addAttribute("locationList", locationService.getAllLocations());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication.getPrincipal() instanceof User userPrincipal) {
+                String username = userPrincipal.getUsername();
+                UserModel user = userRepository.findByUsername(username);
+                model.addAttribute("user", user);
+            }
+            return "plants";
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof User userPrincipal) {
             String username = userPrincipal.getUsername();
             UserModel user = userRepository.findByUsername(username);
-            model.addAttribute("user", user);
+            plantModel.setUser(user);
         }
         plantService.updatePlant(plantModel);
         return "redirect:/plants/all";
@@ -98,7 +107,7 @@ public class PlantController {
 
     @GetMapping("/all/{id}")
     public String getIdPlant(@PathVariable("id") UUID id, Model model) {
-        model.addAttribute("plants", plantService.getPlantById(id));
-        return "plants";
+        model.addAttribute("plant", plantService.getPlantById(id));
+        return "plantsActions";
     }
 }

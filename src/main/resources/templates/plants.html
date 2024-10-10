@@ -37,11 +37,41 @@
             <p><strong>Date of Planting:</strong> <span th:text="${plant.date_of_planting}">Date</span></p>
             <p><strong>Condition:</strong> <span th:text="${plant.condition}">Condition</span></p>
 
-            <!-- Update Plant Form -->
-            <form th:action="@{/plants/update}" method="post" class="d-inline">
-                <input type="hidden" name="id" th:value="${plant.id}"/>
-                <button type="submit" class="btn btn-warning btn-sm">Update</button>
-            </form>
+            <!-- Update Plant Form (Pre-filled) -->
+            <div class="form-card">
+                <h2>Update Plant</h2>
+                <form th:action="@{/plants/update}" method="post" th:object="${plant}">
+                    <input type="hidden" name="id" th:value="${plant.id}"/>
+                    <div class="mb-3">
+                        <label for="plant_Name" class="form-label">Plant Name</label>
+                        <input type="text" class="form-control" id="plant_Name" name="name" th:field="${plant.name}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="species_" class="form-label">Plant Species</label>
+                        <select class="form-select" id="species_" th:field="${plant.species}" name="species" required>
+                            <option value="" disabled>Select Species</option>
+                            <option th:each="species : ${speciesList}" th:value="${species.name}" th:text="${species}" th:selected="${species == plant.species}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateofplanting" class="form-label">Date of Planting</label>
+                        <input type="date" class="form-control" id="dateofplanting" name="date_of_planting" th:field="${plant.date_of_planting}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="condition_" class="form-label">Condition</label>
+                        <select class="form-select" id="condition_" name="condition" th:field="${plant.condition}" required>
+                            <option th:each="condition : ${conditionsList}" th:value="${condition.name}" th:text="${condition}" th:selected="${condition == plant.condition}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location_" class="form-label">Location</label>
+                        <select class="form-select" id="location_" name="location" th:field="${plant.location}" required>
+                            <option th:each="location : ${locationList}" th:value="${location.id}" th:text="${location.locationType}" th:selected="${location == plant.location}"></option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Update Plant</button>
+                </form>
+            </div>
 
             <!-- Delete Plant Form -->
             <form th:action="@{/plants/delete}" method="post" class="d-inline">
@@ -57,7 +87,7 @@
         <form th:action="@{/plants/add}" method="post" th:object="${plant}">
             <div class="mb-3">
                 <label for="plantName" class="form-label">Plant Name</label>
-                <input type="text" class="form-control" id="plantName" name="name" required>
+                <input type="text" class="form-control" id="plantName" name="name" th:field="${plant.name}" required>
             </div>
             <div class="mb-3">
                 <label for="species" class="form-label">Plant Species</label>
@@ -82,9 +112,6 @@
                     <option th:each="location : ${locationList}" th:value="${location.id}" th:text="${location.locationType}"></option>
                 </select>
             </div>
-            <label>
-                <input type="text" name="user" th:placeholder="${user.username}" th:value="${user.id}" th:field="${plant.user}" readonly />
-            </label>
             <button type="submit" class="btn btn-primary">Add Plant</button>
         </form>
     </div>

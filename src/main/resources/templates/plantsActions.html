@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light background */
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        h2, h3 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Plant Details</h1>
+
+    <!-- Plant Information -->
+    <div class="card">
+        <div class="card-body">
+            <h2>Plant Information</h2>
+            <p><strong>Name:</strong> <span th:text="${plant.name}">Plant Name</span></p>
+            <p><strong>Species:</strong> <span th:text="${plant.species}">Species</span></p>
+            <p><strong>Date of Planting:</strong> <span th:text="${plant.date_of_planting}">Date of Planting</span></p>
+            <p><strong>Condition:</strong> <span th:text="${plant.condition}">Condition</span></p>
+            <p><strong>Location:</strong> <span th:text="${plant.location.locationType}">Location</span></p>
+            <p><strong>User:</strong> <span th:text="${plant.user.username}">User</span></p>
+        </div>
+    </div>
+
+    <!-- Plant Cares -->
+    <div class="card">
+        <div class="card-body">
+            <h2>Plant Care</h2>
+            <ul th:if="${plant.plantCares.isEmpty()}" class="list-unstyled">
+                <li>No plant care records available.</li>
+            </ul>
+            <ul th:each="care : ${plant.plantCares}" class="list-unstyled">
+                <li><strong>Date:</strong> <span th:text="${care.date}">Date</span></li>
+                <li><strong>Description:</strong> <span th:text="${care.description}">Description</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Environmental Conditions -->
+    <div class="card">
+        <div class="card-body">
+            <h2>Environmental Conditions</h2>
+            <ul th:if="${plant.environmentalConditions.isEmpty()}" class="list-unstyled">
+                <li>No environmental conditions recorded.</li>
+            </ul>
+            <ul th:each="condition : ${plant.environmentalConditions}" class="list-unstyled">
+                <li><strong>Date:</strong> <span th:text="${condition.date}">Date</span></li>
+                <li><strong>Temperature:</strong> <span th:text="${condition.temperature}">Temperature</span></li>
+                <li><strong>Humidity:</strong> <span th:text="${condition.humidity}">Humidity</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Watering Schedules -->
+    <div class="card">
+        <div class="card-body">
+            <h2>Watering Schedule</h2>
+            <ul th:if="${plant.wateringSchedules.isEmpty()}" class="list-unstyled">
+                <li>No watering schedules recorded.</li>
+            </ul>
+            <ul th:each="schedule : ${plant.wateringSchedules}" class="list-unstyled">
+                <li><strong>Date:</strong> <span th:text="${schedule.date}">Date</span></li>
+                <li><strong>Amount:</strong> <span th:text="${schedule.amount}">Amount</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Fertilizer Applications -->
+    <div class="card">
+        <div class="card-body">
+            <h2>Fertilizer Applications</h2>
+            <ul th:if="${plant.fertilizerApplications.isEmpty()}" class="list-unstyled">
+                <li>No fertilizer applications recorded.</li>
+            </ul>
+            <ul th:each="fertilizer : ${plant.fertilizerApplications}" class="list-unstyled">
+                <li><strong>Date:</strong> <span th:text="${fertilizer.date}">Date</span></li>
+                <li><strong>Type:</strong> <span th:text="${fertilizer.type}">Type</span></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

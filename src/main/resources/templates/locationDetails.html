@@ -33,7 +33,7 @@
 
     <div th:if="${location.plants != null and #lists.size(location.plants) > 0}">
         <div th:each="plant : ${location.plants}">
-            <a th:href="@{/plants/{id}(id=${plant.id})}" class="text-decoration-none">
+            <a th:href="@{/plants/all/{id}(id=${plant.id})}" class="text-decoration-none">
                 <div class="plant-card">
                     <h3 th:text="${plant.name}">Plant Name</h3>
                     <p><strong>Species:</strong> <span th:text="${plant.species.name}">Plant Species</span></p>
