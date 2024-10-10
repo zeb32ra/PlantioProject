@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .plant-text {
+            position: absolute; /* Position text absolutely */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Adjust for the width and height of the text */
+            color: white; /* Text color for visibility */
+            font-size: 24px; /* Font size */
+            text-align: center; /* Center the text */
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for contrast */
+            padding: 20px; /* Padding around the text */
+            border-radius: 8px; /* Rounded corners */
+        }
+        body {
+            margin: 0; /* Remove default margin */
+            height: 100vh; /* Full height */
+            background-image: url('/assets/images/plant.jpg'); /* Background image */
+            background-size: cover; /* Cover the whole page */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent tiling */
+        }
+    </style>
+</head>
+<body>
+<div th:if="${isAdmin}" th:insert="blocks/header"></div>
+<div th:if="${isManager}" th:insert="blocks/managerHeader"></div>
+<div th:if="${isUser}" th:insert="blocks/userHeader"></div>
+<a href="/registration" class="btn btn-success" th:attr="style=${isAdmin} ? 'display: block;' : 'display: none;'">Новый пользователь</a>
+
+<div class="container">
+    <div class="plant-text">
+        Welcome to Plantio!
+        <p></p>
+        Plants are essential to life on Earth. They provide oxygen, improve air quality, and add beauty to our surroundings.
+    </div>
+
+</div>
+</body>
+</html>
