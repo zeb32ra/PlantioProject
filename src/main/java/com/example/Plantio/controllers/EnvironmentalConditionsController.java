@@ -45,10 +45,10 @@ public class EnvironmentalConditionsController {
         return "redirect:/environmentalConditions/all";
     }
 
-    @PostMapping("/delete")
-    public String deleteEnvironmentalCondition(@RequestParam UUID id) {
+    @PostMapping("/delete/{id}")
+    public String deleteEnvironmentalCondition(@RequestParam UUID id, @PathVariable("id") UUID plant_id) {
         environmentalConditionsService.deleteEnvironmentalCondition(id);
-        return "redirect:/plants/all";
+        return "redirect:/plants/all/{id}";
     }
 
     @GetMapping("/all/{id}")

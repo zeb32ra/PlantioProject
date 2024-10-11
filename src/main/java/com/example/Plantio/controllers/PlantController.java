@@ -111,6 +111,7 @@ public class PlantController {
         model.addAttribute("plantCare", new PlantCareModel());
         model.addAttribute("environmentalCondition", new EnvironmentalConditionsModel());
         model.addAttribute("wateringSchedule", new WateringScheduleModel());
+        model.addAttribute("fertilizerApplication", new FertilizerApplicationModel());
         model.addAttribute("actionsList", ActionsEnum.values());
         return "plantsActions";
     }

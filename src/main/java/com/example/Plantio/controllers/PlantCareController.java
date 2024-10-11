@@ -40,16 +40,16 @@ public class PlantCareController {
         return "redirect:/plants/all/{id}";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update/{id}")
     public String updatePlantCare(@Valid @ModelAttribute("plantCare") PlantCareModel plantCareModel, BindingResult result, Model model){
         plantCareService.updatePlantCare(plantCareModel);
-        return "redirect:/plantCares/all";
+        return "redirect:/plantCares/all"; //change
     }
 
-    @PostMapping("/delete")
-    public String deletePlantCare(@RequestParam UUID id) {
+    @PostMapping("/delete/{id}")
+    public String deletePlantCare(@RequestParam UUID id, @PathVariable("id") UUID plant_id) {
         plantCareService.deletePlantCare(id);
-        return "redirect:/plantCares/all";
+        return "redirect:/plants/all/{id}";
     }
 
     @GetMapping("/all/{id}")
