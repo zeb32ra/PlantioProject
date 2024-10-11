@@ -39,8 +39,8 @@ public class EnvironmentalConditionsController {
         return "redirect:/plants/all/{id}";
     }
 
-    @PostMapping("/update")
-    public String updateEnvironmentalCondition(@Valid @ModelAttribute("environmentalCondition") EnvironmentalConditionsModel environmentalConditionsModel, BindingResult result, Model model){
+    @PostMapping("/update/{id}")
+    public String updateEnvironmentalCondition(@Valid @ModelAttribute("environmentalCondition") EnvironmentalConditionsModel environmentalConditionsModel,  BindingResult result, Model model){
         environmentalConditionsService.updateEnvironmentalCondition(environmentalConditionsModel);
         return "redirect:/environmentalConditions/all";
     }

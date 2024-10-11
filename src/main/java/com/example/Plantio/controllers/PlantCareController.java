@@ -26,6 +26,7 @@ public class PlantCareController {
     @GetMapping("/all")
     public String getAllPlantCares(Model model) {
         model.addAttribute("plantCares", plantCareService.getAllPlantCares());
+        model.addAttribute("plant", plantService.getAllPlants());
         return "plantCares";
     }
 

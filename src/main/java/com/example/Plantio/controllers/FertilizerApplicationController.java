@@ -38,16 +38,16 @@ public class FertilizerApplicationController {
         return "redirect:/plants/all/{id}";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update/{id}")
     public String updateFertilizerApplication(@Valid @ModelAttribute("fertilizerApplication") FertilizerApplicationModel fertilizerModel, BindingResult result, Model model){
         fertilizerApplicationService.updateFertilizerApplication(fertilizerModel);
         return "redirect:/fertilizerApplications/all";
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteFertilizerApplication(@RequestParam UUID id, @PathVariable("id") UUID plant_id) {
+    public String deleteFertilizerApplication(@RequestParam UUID id, @PathVariable("id") UUID plant_id, Model model) {
         fertilizerApplicationService.deleteFertilizerApplication(id);
-        return "redirect:/plants/all/{id}";
+        return "plantCares";
     }
 
     @GetMapping("/all/{id}")

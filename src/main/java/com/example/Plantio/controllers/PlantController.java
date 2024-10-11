@@ -2,6 +2,7 @@ package com.example.Plantio.controllers;
 
 import com.example.Plantio.model.*;
 import com.example.Plantio.repository.UserRepository;
+import com.example.Plantio.service.FertilizerService;
 import com.example.Plantio.service.LocationService;
 import com.example.Plantio.service.PlantService;
 import jakarta.validation.Valid;
@@ -28,6 +29,9 @@ public class PlantController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private FertilizerService fertilizerService;
+
 
     @GetMapping("/all")
     public String getAllPlants(Model model) {
@@ -36,6 +40,7 @@ public class PlantController {
         model.addAttribute("speciesList", PlantSpecies.values());
         model.addAttribute("conditionsList", ConditionEnum.values());
         model.addAttribute("locationList", locationService.getAllLocations());
+        model.addAttribute("fertilizerList", fertilizerService.getAllFertilizers());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof User userPrincipal) {
@@ -54,6 +59,7 @@ public class PlantController {
             model.addAttribute("speciesList", PlantSpecies.values());
             model.addAttribute("conditionsList", ConditionEnum.values());
             model.addAttribute("locationList", locationService.getAllLocations());
+            model.addAttribute("fertilizerList", fertilizerService.getAllFertilizers());
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication.getPrincipal() instanceof User userPrincipal) {
                 String username = userPrincipal.getUsername();
@@ -80,6 +86,7 @@ public class PlantController {
             model.addAttribute("speciesList", PlantSpecies.values());
             model.addAttribute("conditionsList", ConditionEnum.values());
             model.addAttribute("locationList", locationService.getAllLocations());
+            model.addAttribute("fertilizerList", fertilizerService.getAllFertilizers());
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication.getPrincipal() instanceof User userPrincipal) {
                 String username = userPrincipal.getUsername();
@@ -113,6 +120,7 @@ public class PlantController {
         model.addAttribute("wateringSchedule", new WateringScheduleModel());
         model.addAttribute("fertilizerApplication", new FertilizerApplicationModel());
         model.addAttribute("actionsList", ActionsEnum.values());
+        model.addAttribute("fertilizerList", fertilizerService.getAllFertilizers());
         return "plantsActions";
     }
 }

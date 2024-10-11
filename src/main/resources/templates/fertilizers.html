@@ -1,10 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление Удобрениями</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .fertilizer-card {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .update-form {
+            display: none;
+        }
+    </style>
 </head>
 <body>
+<div class="container mt-5">
+    <h1>Управление Удобрениями</h1>
 
+    <!-- Список Удобрений -->
+    <h2 class="mt-4">Все Удобрения</h2>
+
+    <!-- Проверка на пустоту списка -->
+    <div th:if="${#lists.isEmpty(fertilizers)}">
+        <p class="alert alert-info">Нет доступных удобрений. Пожалуйста, добавьте новое удобрение.</p>
+    </div>
+
+    <!-- Отображение удобрений -->
+    <div th:each="fertilizer : ${fertilizers}" class="fertilizer-card">
+        <h5 th:text="${fertilizer.name}">Имя Удобрения</h5>
+        <p th:text="'Тип: ' + ${fertilizer.type}">Тип Удобрения</p>
+
+        <!-- Кнопка обновления -->
+        <button class="btn btn-warning btn-sm toggle-update-form" th:data-id="${fertilizer.id}">
+            Обновить
+        </button>
+
+        <!-- Форма удаления удобрения -->
+        <form th:action="@{/fertilizers/delete/{id}(id=${fertilizer.id})}" method="post" style="display:inline;">
+            <input type="hidden" name="id" th:value="${fertilizer.id}"/>
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены, что хотите удалить это удобрение?')">
+                Удалить
+            </button>
+        </form>
+
+        <!-- Форма обновления удобрения (по умолчанию скрыта) -->
+        <div class="update-form" th:id="'updateFertilizerForm' + ${fertilizer.id}">
+            <form th:action="@{/fertilizers/update/{id}(id=${fertilizer.id})}" method="post">
+                <div class="form-row">
+                    <div class="col">
+                        <label for="fertilizerNameUpdate">Имя:</label>
+                        <input type="text" class="form-control" id="fertilizerNameUpdate" name="name" th:value="${fertilizer.name}" required />
+                    </div>
+                    <div class="col">
+                        <label for="fertilizerTypeUpdate">Тип:</label>
+                        <input type="text" class="form-control" id="fertilizerTypeUpdate" name="type" th:value="${fertilizer.type}" required />
+                    </div>
+                    <div class="col">
+                        <label>&nbsp;</label>
+                        <button type="submit" class="btn btn-primary btn-block">Обновить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Форма добавления нового удобрения -->
+    <h2 class="mt-4">Добавить Новое Удобрение</h2>
+    <form th:action="@{/fertilizers/add}" method="post">
+        <div class="form-row">
+            <div class="col">
+                <label for="fertilizerNameAdd">Имя:</label>
+                <input type="text" class="form-control" id="fertilizerNameAdd" name="name" placeholder="Введите имя удобрения" required />
+            </div>
+            <div class="col">
+                <label for="fertilizerTypeAdd">Тип:</label>
+                <input type="text" class="form-control" id="fertilizerTypeAdd" name="type" placeholder="Введите тип удобрения" required />
+            </div>
+            <div class="col">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-success btn-block">Добавить Удобрение</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Подключение JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+    // Обработчик клика по кнопке "Обновить"
+    $(document).on('click', '.toggle-update-form', function () {
+        const fertilizerId = $(this).data('id');
+        $('#updateFertilizerForm' + fertilizerId).toggle();
+    });
+</script>
 </body>
 </html>

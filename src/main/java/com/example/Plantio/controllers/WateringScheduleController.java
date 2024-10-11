@@ -38,7 +38,7 @@ public class WateringScheduleController {
         return "redirect:/plants/all/{id}";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update/{id}")
     public String updateWateringSchedule(@Valid @ModelAttribute("wateringSchedule") WateringScheduleModel fertilizerModel, BindingResult result, Model model){
         wateringScheduleService.updateWateringSchedule(fertilizerModel);
         return "redirect:/wateringSchedules/all";

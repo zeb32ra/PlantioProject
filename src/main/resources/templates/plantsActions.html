@@ -112,7 +112,7 @@
                 <!-- Update Environmental Condition Form (Initially Collapsed) -->
                 <div th:id="'updateEnvForm' + ${condition.id}" class="collapse">
                     <form th:action="@{/environmentalConditions/update/{id}(id=${condition.id})}" method="post">
-                        <input type="hidden" name="plantId" th:value="${plant.id}"/>
+                        <input type="hidden" name="plant" th:value="${plant.id}"/>
                         <label>Humidity:</label>
                         <input type="text" class="form-control" name="humidity" th:value="${condition.humidity}" required />
                         <label>Temperature:</label>
@@ -126,7 +126,7 @@
 
             <!-- Add Environmental Condition Form -->
             <form th:action="@{/environmentalConditions/add/{id}(id=${plant.id})}" method="post">
-                <input type="hidden" name="plantId" th:value="${plant.id}"/>
+                <input type="hidden" name="plant" th:value="${plant.id}"/>
                 <label>Humidity:</label>
                 <input type="text" class="form-control" name="humidity" required />
                 <label>Temperature:</label>
@@ -159,7 +159,7 @@
                 <!-- Update Watering Schedule Form (Initially Collapsed) -->
                 <div th:id="'updateWaterForm' + ${schedule.id}" class="collapse">
                     <form th:action="@{/wateringSchedules/update/{id}(id=${schedule.id})}" method="post">
-                        <input type="hidden" name="plantId" th:value="${plant.id}"/>
+                        <input type="hidden" name="plant" th:value="${plant.id}"/>
                         <label>Watering Time:</label>
                         <input type="text" class="form-control" name="watering_time" th:value="${schedule.watering_time}" required />
                         <label>Frequency:</label>
@@ -171,7 +171,7 @@
 
             <!-- Add Watering Schedule Form -->
             <form th:action="@{/wateringSchedules/add/{id}(id=${plant.id})}" method="post">
-                <input type="hidden" name="plantId" th:value="${plant.id}"/>
+                <input type="hidden" name="plant" th:value="${plant.id}"/>
                 <label>Watering Time:</label>
                 <input type="text" class="form-control" name="watering_time" required />
                 <label>Frequency:</label>
@@ -192,6 +192,8 @@
                 <li><strong>Date:</strong> <span th:text="${fertilizer.date}">Date</span></li>
                 <li><strong>Amount:</strong> <span th:text="${fertilizer.amount}">Amount</span></li>
                 <form th:action="@{/fertilizerApplications/delete/{id}(id=${fertilizer.id})}" method="post" class="d-inline">
+                    <input type="hidden" name="id" th:value="${fertilizer.id}"/>
+                    <input type="hidden" name="plant" th:value="${plant.id}"/>
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
                 <!-- Update Button -->
@@ -202,11 +204,20 @@
                 <!-- Update Fertilizer Application Form (Initially Collapsed) -->
                 <div th:id="'updateFertilizerForm' + ${fertilizer.id}" class="collapse">
                     <form th:action="@{/fertilizerApplications/update/{id}(id=${fertilizer.id})}" method="post">
-                        <input type="hidden" name="plantId" th:value="${plant.id}"/>
+                        <input type="hidden" name="plant" th:value="${plant.id}"/>
+
+                        <!-- Выбор удобрения -->
+                        <label for="fertilizerSelect">Fertilizer:</label>
+                        <select id="fertilizerSelect" name="fertilizer" class="form-control" required>
+                            <option th:each="f : ${fertilizerList}" th:value="${f.id}" th:text="${f.name}"></option>
+                        </select>
+
                         <label>Date:</label>
                         <input type="date" class="form-control" name="date" th:value="${fertilizer.date}" required />
+
                         <label>Amount:</label>
                         <input type="text" class="form-control" name="amount" th:value="${fertilizer.amount}" required />
+
                         <button type="submit" class="btn btn-primary mt-2">Update Fertilizer Application</button>
                     </form>
                 </div>
@@ -214,11 +225,20 @@
 
             <!-- Add Fertilizer Application Form -->
             <form th:action="@{/fertilizerApplications/add/{id}(id=${plant.id})}" method="post">
-                <input type="hidden" name="plantId" th:value="${plant.id}"/>
+                <input type="hidden" name="plant" th:value="${plant.id}"/>
+
+                <!-- Выбор удобрения -->
+                <label for="fertilizerSelectAdd">Fertilizer:</label>
+                <select id="fertilizerSelectAdd" name="fertilizer" class="form-control" required>
+                    <option th:each="f : ${fertilizerList}" th:value="${f.id}" th:text="${f.name}"></option>
+                </select>
+
                 <label>Date:</label>
                 <input type="date" class="form-control" name="date" required />
+
                 <label>Amount:</label>
                 <input type="text" class="form-control" name="amount" required />
+
                 <button type="submit" class="btn btn-primary mt-2">Add Fertilizer Application</button>
             </form>
         </div>

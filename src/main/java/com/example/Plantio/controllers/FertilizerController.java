@@ -1,6 +1,7 @@
 package com.example.Plantio.controllers;
 
 import com.example.Plantio.model.FertilizerModel;
+import com.example.Plantio.model.PlantModel;
 import com.example.Plantio.service.FertilizerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class FertilizerController {
     @Autowired
     private FertilizerService fertilizerService;
+
 
     @GetMapping("/all")
     public String getAllFertilizers(Model model) {
@@ -33,7 +35,7 @@ public class FertilizerController {
         return "redirect:/fertilizers/all";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update/{id}")
     public String updateFertilizer(@Valid @ModelAttribute("fertilizer") FertilizerModel fertilizerModel, BindingResult result, Model model){
         fertilizerService.updateFertilizer(fertilizerModel);
         return "redirect:/fertilizers/all";
